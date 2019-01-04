@@ -1,0 +1,30 @@
+<configuration>
+	<appender name="STDOUT"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<root level="debug">
+		<appender-ref ref="STDOUT" />
+	</root>
+
+	<!-- rule: INFO shows the logging, ERROR suppresses the logging -->
+	<!-- RUN: to show inital state and solution; set always to 'INFO' -->
+	<!-- RULE_ONE_VAL_LEFT: start and stop of the rule -->
+	<!-- RULE_RULE_EXCLUDED_VAL: start and stop of the rule -->
+	<!-- RULE_BACKTRACK: start and stop of the rule -->
+	<!-- RESULT_ONE_VAL_LEFT: solutions of the rule -->
+	<!-- RESULT_EXCLUDED_VAL: solutions of the rule -->
+	<!-- RESULT_BACKTRACK: solutions of the rule -->
+
+	<logger name="RUN" level="INFO" />
+	<logger name="RULE_ONE_VAL_LEFT" level="ERROR" />
+	<logger name="RESULT_ONE_VAL_LEFT" level="INFO" />
+	<logger name="RULE_RULE_EXCLUDED_VAL" level="ERROR" />
+	<logger name="RESULT_EXCLUDED_VAL" level="INFO" />
+	<logger name="RULE_BACKTRACK" level="INFO" />
+	<logger name="RESULT_BACKTRACK" level="INFO" />
+</configuration>
