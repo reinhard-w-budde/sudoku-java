@@ -15,7 +15,7 @@ public class Do {
 
     /**
      * convert a string of length 81 to an Cell[81] array. Chars between '1' and '9'are considered already known cell values.
-     * 
+     *
      * @param aS the string to convert
      * @return the cell array
      */
@@ -36,19 +36,19 @@ public class Do {
 
     /**
      * log, that a rule started
-     * 
+     *
      * @param log logger to use
      * @param indent depth of indentation
      * @param ruleId name of rule to be started
      * @param state of the solution
      */
     public static void logStartRule(Logger log, int indent, char ruleId, State state) {
-        logRule(log, indent, "++", ruleId, null, state);
+        logRule(log, indent, "++", ruleId, "", state);
     }
 
     /**
      * log, that a rule terminated
-     * 
+     *
      * @param log logger to use
      * @param indent depth of indentation
      * @param ruleId name of rule to be started
@@ -60,7 +60,7 @@ public class Do {
 
     /**
      * log a message with a indentation (for better reading)
-     * 
+     *
      * @param log logger to use
      * @param depth of indentation
      * @param msg to be logged
@@ -80,13 +80,10 @@ public class Do {
     private static void logRule(Logger log, int depth, String prefix, char ruleId, String msg, State state) {
         if ( log.isInfoEnabled() ) {
             StringBuilder sb = new StringBuilder();
-            sb.append(prefix).append(ruleId).append(": ");
-            if ( msg != null ) {
-                sb.append(msg).append(" ");
-            }
-            sb.append("[").append(state.getNumberFinalized()).append("]");
             addIndentation(sb, depth);
+            sb.append(prefix).append(ruleId).append(": ");
             sb.append(msg);
+            sb.append("[").append(state.getNumberFinalized()).append("]");
             log.info(sb.toString());
         }
     }

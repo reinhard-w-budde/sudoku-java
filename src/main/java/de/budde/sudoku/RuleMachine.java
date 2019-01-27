@@ -122,10 +122,10 @@ public class RuleMachine {
                     stateForTrial.setFinalCellVal(test, val, ruleBacktrackerId);
                     stateForTrial = ruleOneValLeft(recDepth + 1, stateForTrial);
                     stateForTrial = ruleExcludedVal(recDepth + 1, stateForTrial);
-                    Do.logI(RESULT_BACKTRACK, recDepth, ruleBacktrackerId + ": SUCC cell " + test.toXY() + " = " + val);
                     stateForTrial.valid();
+                    Do.logI(RESULT_BACKTRACK, recDepth, ruleBacktrackerId + ": SUCC cell " + test.toXY() + " = " + val);
                     if ( stateForTrial.getNumberFinalized() < 81 ) {
-                        stateForTrial = ruleBacktracker(recDepth + 1, stateForTrial, visitedCells);
+                        stateForTrial = ruleBacktracker(recDepth + 1, stateForTrial, visitedCells.clone());
                     }
                     Do.logEndRule(RULE_BACKTRACK, recDepth, ruleBacktrackerId, "FINAL SUCCESS", stateForTrial);
                     return stateForTrial;
@@ -149,13 +149,11 @@ public class RuleMachine {
      * @return
      */
     private static Cell pickCell(State state, boolean[] visitedCells) {
-        Cell[] cells = state.getCells();
         Cell minValsCell = null;
-        for ( int i = 0; i < visitedCells.length; i++ ) {
-            if ( !visitedCells[i] ) {
-                Cell pickCandidate = cells[i];
-                if ( !pickCandidate.isFinalValueSet() ) {
-                    minValsCell = pickCandidate;
+        for ( Cell cell : state.getCells() ) {
+            if ( !visitedCells[cell.getIdx()] ) {
+                if ( !cell.isFinalValueSet() ) {
+                    minValsCell = cell;
                 }
             }
         }
@@ -166,14 +164,13 @@ public class RuleMachine {
         // find the cell with the least number of possible values
         int minValsSize = minValsCell.getPossibleVals().size();
         if ( minValsSize > 2 ) {
-            for ( int i = 0; i < cells.length; i++ ) {
-                if ( !visitedCells[i] ) {
-                    Cell pickCandidate = cells[i];
-                    if ( !pickCandidate.isFinalValueSet() ) {
-                        int size = pickCandidate.getPossibleVals().size();
+            for ( Cell cell : state.getCells() ) {
+                if ( !visitedCells[cell.getIdx()] ) {
+                    if ( !cell.isFinalValueSet() ) {
+                        int size = cell.getPossibleVals().size();
                         if ( size < minValsSize ) {
                             minValsSize = size;
-                            minValsCell = pickCandidate;
+                            minValsCell = cell;
                             if ( minValsSize <= 2 ) {
                                 break;
                             }

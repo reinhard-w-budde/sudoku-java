@@ -31,7 +31,7 @@ public class RunSudoku {
         }
         state.valid();
         long delta = new Date().getTime() - start; // runtime native code generation has great effect on delta!
-        RUN.info("final result after " + state.getSteps() + " steps  in " + delta + " msec");
+        RUN.info("final result after " + state.getSteps() + " steps in " + delta + " msec");
         showState(state, false); // false: compact solution, true: solution with rule names and step number
         return state;
     }

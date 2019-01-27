@@ -1,14 +1,19 @@
 package de.budde.sudoku;
 
+import java.math.BigInteger;
 import java.util.EnumSet;
 
 import de.fraunhofer.iais.dbc.DBC;
 import de.fraunhofer.iais.dbc.DBCException;
 
 public class Cell {
+    static final BigInteger MINUS1 = BigInteger.valueOf(-1);
+    static final BigInteger ZERO = BigInteger.valueOf(0);
+    static final BigInteger ONE = BigInteger.valueOf(1);
+
     private final int idx;
     private EnumSet<Val> possibleVals;
-    private int step;
+    private BigInteger step;
     private char ruleId;
 
     /**
@@ -20,7 +25,7 @@ public class Cell {
     public Cell(int idx, EnumSet<Val> possibleVals) {
         this.idx = idx;
         this.possibleVals = possibleVals;
-        step = -1;
+        step = MINUS1;
         ruleId = '?';
     }
 
@@ -73,7 +78,7 @@ public class Cell {
     public void setInitVal(Val val) {
         DBC.notNull(val);
         possibleVals = EnumSet.of(val);
-        step = 0;
+        step = ZERO;
         ruleId = 'I';
     }
 
@@ -87,9 +92,9 @@ public class Cell {
      * @param step the step in which the final value was decided (helps to explain how the sudoku was solved)
      * @param ruleId the id of the rule that detected the final value (helps to explain how the sudoku was solved)
      */
-    public void setFinalVal(Val val, int step, char ruleId) {
+    public void setFinalVal(Val val, BigInteger step, char ruleId) {
         DBC.notNull(val);
-        if ( this.step >= 0 ) {
+        if ( this.step.compareTo(ZERO) == 1 ) {
             throw new DBCException("cell " + this + " got a final value for the second time - logical error of a rule");
         } else if ( isValPossible(val) ) {
             possibleVals = EnumSet.of(val);
@@ -144,7 +149,7 @@ public class Cell {
      * @return true, if final value has been set explicitly; false otherwise
      */
     public boolean isFinalValueSet() {
-        return step >= 0;
+        return step.compareTo(ZERO) >= 0;
     }
 
     /**
@@ -161,7 +166,7 @@ public class Cell {
     /**
      * @return the step, in which the final value was discovered. If the final value is unknown, return -1
      */
-    public int getStep() {
+    public BigInteger getStep() {
         return step;
     }
 

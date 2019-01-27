@@ -1,5 +1,6 @@
 package de.budde.sudoku;
 
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Optional;
@@ -11,8 +12,12 @@ import de.fraunhofer.iais.dbc.DBC;
 import de.fraunhofer.iais.dbc.DBCException;
 
 public class State {
+    private static final BigInteger MINUS1 = BigInteger.valueOf(-1);
+    private static final BigInteger ZERO = BigInteger.valueOf(0);
+    private static final BigInteger ONE = BigInteger.valueOf(1);
+
     private Cell[] cells;
-    private int steps;
+    private BigInteger steps;
 
     /**
      * create an initial state from a cell array.
@@ -24,7 +29,7 @@ public class State {
         this.cells = cells;
         propagateInitialValues();
         valid();
-        steps = 0;
+        steps = ZERO;
     }
 
     /**
@@ -57,7 +62,7 @@ public class State {
      * @param ruleId the rule identifier, who discovered the final value
      */
     public void setFinalCellVal(Cell cell, Val val, char ruleId) {
-        steps++;
+        steps = steps.add(ONE);
         cell.setFinalVal(val, steps, ruleId);
         int finalizedCellId = cell.getIdx();
         NeighborHoodStream neighborHoodStream = Structure.getNeighborHood(finalizedCellId);
@@ -125,7 +130,7 @@ public class State {
      * @return the number of steps, that have been done to solve the sudoku. By calling {@link #setFinalCellVal(Cell, Val, char)}, the number of steps is
      *         incremented.
      */
-    public int getSteps() {
+    public BigInteger getSteps() {
         return steps;
     }
 
@@ -135,8 +140,8 @@ public class State {
      *
      * @param attempts that have been done and failed to be a solution
      */
-    public void incrSteps(int attempts) {
-        steps = steps + attempts;
+    public void incrSteps(BigInteger attempts) {
+        steps = steps.add(attempts);
     }
 
     @Override
