@@ -62,21 +62,6 @@ public class SudokuTest {
         run(10);
     }
 
-    // @Ignore
-    @Test
-    public void testChallenge() {
-        String challengFileNameInFolderChallenges = "h";
-        System.out.println("SUDOKU " + challengFileNameInFolderChallenges);
-        Path path;
-        try {
-            path = Paths.get("challenges/" + challengFileNameInFolderChallenges);
-            String toSolve = Files.readAllLines(path).stream().collect(Collectors.joining());
-            RunSudoku.run(toSolve);
-        } catch ( IOException e ) {
-            System.out.println("The challenge file challenges/" + challengFileNameInFolderChallenges + " could not be read");
-        }
-    }
-
     @Test
     public void testComplete() {
         final int lastNumber = 11;
@@ -99,7 +84,7 @@ public class SudokuTest {
     private static String example(int number) {
         Path path = null;
         try {
-            path = Paths.get("examples/sudoku-" + String.format("%02d", number));
+            path = Paths.get("_examples/sudoku-" + String.format("%02d", number));
             return Files.readAllLines(path).stream().collect(Collectors.joining());
         } catch ( IOException e ) {
             throw new DBCException("File " + path + " could not be read", e);
@@ -109,7 +94,7 @@ public class SudokuTest {
     private static String solution(int number) {
         Path path = null;
         try {
-            path = Paths.get("solutions/sudoku-" + String.format("%02d", number));
+            path = Paths.get("_solutions/sudoku-" + String.format("%02d", number));
             return Files.readAllLines(path).stream().collect(Collectors.joining("\n"));
         } catch ( IOException e ) {
             return null;

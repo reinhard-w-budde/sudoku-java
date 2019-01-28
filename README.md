@@ -7,9 +7,10 @@ Or at least I try to do this :-). Or at least I try to stimulate discussions abo
 
 It is open-source and can be changed and used for private purposes without any restriction.
 
-This git repository starts with a Java solution. Other languages, I use, will be added in the near future. Expect
+I will prepare for languages, I use or like, compatible implementations:
 
-* Python,
+* Java (this Git repo, https://github.com/reinhard-w-budde/sudoku-java.git )
+* Python ( https://github.com/reinhard-w-budde/sudoku-java.git )
 * Go,
 * Typescript (implies a Javascript solution).
 
@@ -62,23 +63,25 @@ Eclipse is not strictly needed. But to see, test and experiment with the code it
     mkdir git; cd git
 ```
 
-2. get the git repository. It contains the branches master and develop. Checkout the develop branch
+2. get the git repository. It contains the branch master.
 ```sh
-    git clone https://github.com/rbudde/sudoku.git
-    cd sudoku
-    git checkout develop
+    git clone https://github.com/reinhard-w-budde/sudoku-java.git
+    cd sudoku-java
 ```
 
-3. build and run. All sudokus from the 'examples' folder will be solved as tests. The test coverage of 'src/main/java' is >97%.
+3. build and run. All sudokus from the '_examples' folder will be solved as tests and compared to the solutions from '_solutions'.
+   The test coverage of 'src/main/java' is >97%. Run from the project base directory:
 ```sh
-    mvn clean test
+    mvn clean install
 ```
 
-4. add sudokus, which you want to solve in the 'challenges' folder. Edit the method 'testChallenge()' in 'SudokuTest.java' accordingly (remove the @Ignore!)
-   and run the method 'testChallenge()' in Eclipse as Junit test. See the console output.
+4. add sudokus, which you want to solve in the '_challenges' folder (for instance). Run a main class to solve it from the project base directory:
+```sh
+    java -cp 'target/lib/*' de.budde.sudoku.Main _challenges/YOUR_FILE_NAME
+```
    
    There is a lot of logging and there are a lot of loggers configured in 'src/main/resources/logback.xml'. See the comments there.
    The level for a logger to be shown must be 'INFO' or lower. Thus: if you want to reduce logging for some loggers, set their level to 'ERROR' and the logging
    disappears. Leave at least logger 'RUN' at level 'INFO'.
 
-5. For suggestions, discussions, questions, proposal for a better style contact me at reinhard.budde at iais.fraunhofer.de
+5. For suggestions, discussions, questions, proposals for a better programing style contact me at reinhard.budde at iais.fraunhofer.de
