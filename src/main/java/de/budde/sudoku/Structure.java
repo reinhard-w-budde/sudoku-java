@@ -98,7 +98,7 @@ public class Structure {
 
     /**
      * convert a var args int argument list to an int[]
-     * 
+     *
      * @param ints to convert
      * @return int[] of the parameters
      */
@@ -109,7 +109,7 @@ public class Structure {
 
     /**
      * convert a var args argument list of type T to an
-     * 
+     *
      * @param ts objects of type T to convert
      * @return T[] of the parameters
      */
@@ -120,7 +120,7 @@ public class Structure {
 
     /**
      * create a copy of an int[]. The values of the copy are the original values incremented by a fixed number
-     * 
+     *
      * @param ia the array to copy
      * @param incr value to increment each array item
      * @return
@@ -145,12 +145,12 @@ public class Structure {
         }
 
         public Stream<int[]> get() {
-            return Stream.of(h, v, b);
+            return Stream.of(this.h, this.v, this.b);
         }
 
         @Override
         public String toString() {
-            return "NeighbarHoods [h=" + Arrays.toString(h) + ", v=" + Arrays.toString(v) + ", b=" + Arrays.toString(b) + "]";
+            return "NeighbarHoods [h=" + Arrays.toString(this.h) + ", v=" + Arrays.toString(this.v) + ", b=" + Arrays.toString(this.b) + "]";
         }
     }
 }

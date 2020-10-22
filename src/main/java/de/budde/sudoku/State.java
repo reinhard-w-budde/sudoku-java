@@ -29,7 +29,7 @@ public class State {
         this.cells = cells;
         propagateInitialValues();
         valid();
-        steps = ZERO;
+        this.steps = ZERO;
     }
 
     /**
@@ -42,7 +42,7 @@ public class State {
             cells[i] = this.cells[i].clone();
         }
         State clone = new State(cells);
-        clone.steps = steps;
+        clone.steps = this.steps;
         clone.valid();
         return clone;
     }
@@ -51,7 +51,7 @@ public class State {
      * @return the array of all cells of this state
      */
     public Cell[] getCells() {
-        return cells;
+        return this.cells;
     }
 
     /**
@@ -62,8 +62,8 @@ public class State {
      * @param ruleId the rule identifier, who discovered the final value
      */
     public void setFinalCellVal(Cell cell, Val val, char ruleId) {
-        steps = steps.add(ONE);
-        cell.setFinalVal(val, steps, ruleId);
+        this.steps = this.steps.add(ONE);
+        cell.setFinalVal(val, this.steps, ruleId);
         int finalizedCellId = cell.getIdx();
         NeighborHoodStream neighborHoodStream = Structure.getNeighborHood(finalizedCellId);
         neighborHoodStream.get().forEach(g -> removeValueFromNeighborHood(val, finalizedCellId, g));
@@ -91,7 +91,7 @@ public class State {
      */
     public int getNumberFinalized() {
         int finalized = 0;
-        for ( Cell cell : cells ) {
+        for ( Cell cell : this.cells ) {
             if ( cell.isFinalValueSet() ) {
                 finalized++;
             }
@@ -107,14 +107,14 @@ public class State {
      * If the state is not valid, throw an exception, otherwise return.
      */
     public void valid() {
-        for ( Cell cell : cells ) {
+        for ( Cell cell : this.cells ) {
             EnumSet<Val> possibleVals = cell.getPossibleVals();
             DBC.isTrue(possibleVals.size() > 0);
         }
         for ( int[] neighborHood : Structure.getAllNeighborhoods() ) {
             EnumSet<Val> collect = EnumSet.noneOf(Val.class);
             for ( int idx : neighborHood ) {
-                Cell cell = cells[idx];
+                Cell cell = this.cells[idx];
                 if ( cell.isOnlyOneValLeft() ) {
                     Val finalVal = cell.getTheFinalVal();
                     if ( collect.contains(finalVal) ) {
@@ -131,7 +131,7 @@ public class State {
      *         incremented.
      */
     public BigInteger getSteps() {
-        return steps;
+        return this.steps;
     }
 
     /**
@@ -141,7 +141,7 @@ public class State {
      * @param attempts that have been done and failed to be a solution
      */
     public void incrSteps(BigInteger attempts) {
-        steps = steps.add(attempts);
+        this.steps = this.steps.add(attempts);
     }
 
     @Override
@@ -160,7 +160,7 @@ public class State {
         String percentD = null;
         String empty = null;
         if ( showDetails ) {
-            final int stepLength = ("" + steps).length();
+            final int stepLength = ("" + this.steps).length();
             final int stepLengthPlus5 = stepLength + 5;
             final String horizontalCellHeader = " " + Strings.repeat("-", stepLengthPlus5);
             final String horizontalLine = "+" + Strings.repeat(horizontalCellHeader, 3) + " ";
@@ -174,7 +174,7 @@ public class State {
         final StringBuilder sb = new StringBuilder();
         boolean first = true;
         int three = 0;
-        for ( int i = 0; i < cells.length; i++ ) {
+        for ( int i = 0; i < this.cells.length; i++ ) {
             if ( i % 9 == 0 ) {
                 if ( first ) {
                     first = false;
@@ -190,7 +190,7 @@ public class State {
                     }
                 }
             }
-            Cell cell = cells[i];
+            Cell cell = this.cells[i];
             addCellInfo(sb, cell, showDetails, percentD, empty);
             sb.append((i + 1) % 3 == 0 ? " | " : " ");
         }
@@ -239,7 +239,7 @@ public class State {
     private boolean isValImpossibleInNeighborhood(Val val, int mineIdx, int[] neighborHood) {
         for ( int idx : neighborHood ) {
             if ( idx != mineIdx ) {
-                Cell cell = cells[idx];
+                Cell cell = this.cells[idx];
                 if ( cell.isValPossible(val) ) {
                     return false;
                 }
@@ -259,7 +259,7 @@ public class State {
         DBC.isTrue(neighborHood.length == 9);
         for ( int idx : neighborHood ) {
             if ( idx != finalizedCellId ) {
-                cells[idx].removeFromSetOfPossibleValues(finalVal);
+                this.cells[idx].removeFromSetOfPossibleValues(finalVal);
             }
         }
     }

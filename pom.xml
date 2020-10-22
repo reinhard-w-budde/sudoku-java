@@ -22,12 +22,12 @@
 		<dependency>
 			<groupId>de.fraunhofer.iais</groupId>
 			<artifactId>dbc</artifactId>
-			<version>0.5</version>
+			<version>0.8.2</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.11</version>
+			<version>4.13.1</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -105,38 +105,12 @@
 	</build>
 
 	<repositories>
-		<!-- Public repositories -->
-		<repository>
-			<id>maven-central</id>
-			<url>http://repo1.maven.org/maven2/</url>
-		</repository>
-		<!-- Fraunhofer IAIS - Repositories -->
-		<repository>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<id>central</id>
-			<url>http://maven.iais.fraunhofer.de/artifactory/remote-repos</url>
-		</repository>
 		<repository>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
 			<id>iaisRepo</id>
-			<url>http://maven.iais.fraunhofer.de/artifactory/nm-public-release</url>
+			<url>http://maven.iais.fraunhofer.de/artifactory/iais-public-release</url>
 		</repository>
 	</repositories>
-
-	<pluginRepositories>
-		<pluginRepository>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<id>ok</id>
-			<url>http://maven.iais.fraunhofer.de/artifactory/nm-public-release</url>
-		</pluginRepository>
-	</pluginRepositories>
 </project>

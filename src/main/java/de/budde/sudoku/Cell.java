@@ -25,8 +25,8 @@ public class Cell {
     public Cell(int idx, EnumSet<Val> possibleVals) {
         this.idx = idx;
         this.possibleVals = possibleVals;
-        step = MINUS1;
-        ruleId = '?';
+        this.step = MINUS1;
+        this.ruleId = '?';
     }
 
     /**
@@ -35,10 +35,10 @@ public class Cell {
      * @param toClone the cell to clone
      */
     private Cell(Cell toClone) {
-        idx = toClone.idx;
-        possibleVals = toClone.possibleVals.clone();
-        step = toClone.step;
-        ruleId = toClone.ruleId;
+        this.idx = toClone.idx;
+        this.possibleVals = toClone.possibleVals.clone();
+        this.step = toClone.step;
+        this.ruleId = toClone.ruleId;
     }
 
     /**
@@ -53,21 +53,21 @@ public class Cell {
      * @return the index of the cell, starting from 1 left to right, top to down
      */
     public int getIdx() {
-        return idx;
+        return this.idx;
     }
 
     /**
      * @return the X index of the cell (for pretty printing), starting from 1. Value is from 1...9
      */
     public int getX() {
-        return idx % 9 + 1;
+        return this.idx % 9 + 1;
     }
 
     /**
      * @return the Y index of the cell (for pretty printing), starting from 1. Value is from 1...9
      */
     public int getY() {
-        return idx / 9 + 1;
+        return this.idx / 9 + 1;
     }
 
     /**
@@ -77,9 +77,9 @@ public class Cell {
      */
     public void setInitVal(Val val) {
         DBC.notNull(val);
-        possibleVals = EnumSet.of(val);
-        step = ZERO;
-        ruleId = 'I';
+        this.possibleVals = EnumSet.of(val);
+        this.step = ZERO;
+        this.ruleId = 'I';
     }
 
     /**
@@ -97,7 +97,7 @@ public class Cell {
         if ( this.step.compareTo(ZERO) == 1 ) {
             throw new DBCException("cell " + this + " got a final value for the second time - logical error of a rule");
         } else if ( isValPossible(val) ) {
-            possibleVals = EnumSet.of(val);
+            this.possibleVals = EnumSet.of(val);
             this.step = step;
             this.ruleId = ruleId;
         } else {
@@ -111,14 +111,14 @@ public class Cell {
      * @param val the value to be removed from the set of possible values
      */
     public void removeFromSetOfPossibleValues(Val val) {
-        possibleVals.remove(val);
+        this.possibleVals.remove(val);
     }
 
     /**
      * @return the set of possible values
      */
     public EnumSet<Val> getPossibleVals() {
-        return possibleVals;
+        return this.possibleVals;
     }
 
     /**
@@ -128,7 +128,7 @@ public class Cell {
      * @return true, if possible; false otherwise
      */
     public boolean isValPossible(Val val) {
-        return possibleVals.contains(val);
+        return this.possibleVals.contains(val);
     }
 
     /**
@@ -138,7 +138,7 @@ public class Cell {
      * @return true, if the set of possible values has one element; false otherwise
      */
     public boolean isOnlyOneValLeft() {
-        int size = possibleVals.size();
+        int size = this.possibleVals.size();
         return size == 1;
     }
 
@@ -149,7 +149,7 @@ public class Cell {
      * @return true, if final value has been set explicitly; false otherwise
      */
     public boolean isFinalValueSet() {
-        return step.compareTo(ZERO) >= 0;
+        return this.step.compareTo(ZERO) >= 0;
     }
 
     /**
@@ -158,23 +158,23 @@ public class Cell {
      * @return the final value
      */
     public Val getTheFinalVal() {
-        int size = possibleVals.size();
+        int size = this.possibleVals.size();
         DBC.isTrue(size == 1);
-        return possibleVals.iterator().next();
+        return this.possibleVals.iterator().next();
     }
 
     /**
      * @return the step, in which the final value was discovered. If the final value is unknown, return -1
      */
     public BigInteger getStep() {
-        return step;
+        return this.step;
     }
 
     /**
      * @return the ruleId, that discovered the final value. If the final value is unknown, return '?'
      */
     public char getRuleId() {
-        return ruleId;
+        return this.ruleId;
     }
 
     /**
@@ -186,7 +186,7 @@ public class Cell {
 
     @Override
     public String toString() {
-        return "{" + getX() + "," + getY() + ";" + possibleVals.toString() + "}";
+        return "{" + getX() + "," + getY() + ";" + this.possibleVals.toString() + "}";
     }
 
     /**

@@ -41,6 +41,6 @@ public enum Val {
 
     @Override
     public String toString() {
-        return "" + n;
+        return "" + this.n;
     }
 }
